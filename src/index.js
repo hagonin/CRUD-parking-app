@@ -26,10 +26,21 @@ app.use(express.json());
 
 // --- 2. ATTACH RESOURCE ROUTES ---
 // The routers defined in src/routes are attached here to their base paths.
-// Example: All routes in parking.routes start with /parkings
 app.use('/parkings', parkingRoutes);
-// Example: All routes in reservation.routes start with /reservations
+
+
 app.use('/reservations', reservationRoutes);
+
+// 404 handler for unknown routes
+app.use((req, res, next) => {
+  res.status(404).json({ error: 'Route not found' });
+});
+
+// Error handler for other errors
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).json({ error: 'Internal server error' });
+});
 
 // --- 3. SERVER STARTUP ---
 app.listen(PORT, () => {
