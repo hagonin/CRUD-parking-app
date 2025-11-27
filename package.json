@@ -7,11 +7,13 @@
 		"test": "jest",
 		"test:watch": "jest --watch",
 		"test:coverage": "jest --coverage",
-		"import": "node db/import-data.js",
+		"games:import": "node db/import-games-data.js",
 		"start": "node index.js",
 		"livre:setup": "node db/create-livre-collection.js",
 		"livre:test": "node db/test-livre-inserts.js",
-		"livre:scenario": "node db/livre-scenario.js"
+		"livre:scenario": "node db/livre-scenario.js",
+		"city:import": "node db/import-city-data.js",
+		"city:scenario": "node db/city-scenario.js"
 	},
 	"jest": {
 		"testEnvironment": "node",
@@ -19,7 +21,8 @@
 		"collectCoverageFrom": [
 			"queries/**/*.js",
 			"db/**/*.js",
-			"!db/import-data.js"
+			"!db/import-games-data.js",
+			"!db/import-city-data.js"
 		],
 		"testMatch": [
 			"**/tests/**/*.test.js"

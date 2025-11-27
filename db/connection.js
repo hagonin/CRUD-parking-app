@@ -75,8 +75,19 @@ function getDb() {
   return db;
 }
 
+/**
+ * Gets a collection from the database
+ * @param {string} collectionName - Name of the collection
+ * @returns {Collection} MongoDB collection instance
+ */
+function getCollection(collectionName) {
+  const database = getDb();
+  return database.collection(collectionName);
+}
+
 module.exports = {
   connect,
   disconnect,
-  getDb
+  getDb,
+  getCollection
 };

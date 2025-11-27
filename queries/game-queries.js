@@ -1,4 +1,4 @@
-const { getDb } = require('../db/connection');
+const { getCollection } = require('../db/connection');
 
 const COLLECTION_NAME = 'games';
 
@@ -7,8 +7,7 @@ const COLLECTION_NAME = 'games';
  * @returns {Promise<Array>} Array of 3DS games
  */
 async function getAllThreeDSGames() {
-  const db = getDb();
-  const collection = db.collection(COLLECTION_NAME);
+  const collection = getCollection(COLLECTION_NAME);
 
   const games = await collection
     .find({ Platform: '3DS' })
@@ -22,8 +21,7 @@ async function getAllThreeDSGames() {
  * @returns {Promise<Array>} Array of 3DS games from 2011
  */
 async function getThreeDSGamesFrom2011() {
-  const db = getDb();
-  const collection = db.collection(COLLECTION_NAME);
+  const collection = getCollection(COLLECTION_NAME);
 
   const games = await collection
     .find({
@@ -40,8 +38,7 @@ async function getThreeDSGamesFrom2011() {
  * @returns {Promise<Array>} Array of {Name, Global_Sales} objects
  */
 async function getThreeDSGamesSales2011() {
-  const db = getDb();
-  const collection = db.collection(COLLECTION_NAME);
+  const collection = getCollection(COLLECTION_NAME);
 
   const games = await collection
     .find(
@@ -67,8 +64,7 @@ async function getThreeDSGamesSales2011() {
  * @returns {Promise<Array>} Array of top 3 games with Name and Global_Sales
  */
 async function getTop3ThreeDSGames2011() {
-  const db = getDb();
-  const collection = db.collection(COLLECTION_NAME);
+  const collection = getCollection(COLLECTION_NAME);
 
   const games = await collection
     .find(

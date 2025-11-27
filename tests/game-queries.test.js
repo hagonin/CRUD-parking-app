@@ -5,10 +5,10 @@
 
 // Mock the connection module before requiring query functions
 jest.mock('../db/connection', () => ({
-  getDb: jest.fn()
+  getCollection: jest.fn()
 }));
 
-const { getDb } = require('../db/connection');
+const { getCollection } = require('../db/connection');
 const {
   getAllThreeDSGames,
   getThreeDSGamesFrom2011,
@@ -42,10 +42,8 @@ describe('Game Query Functions', () => {
       find: jest.fn().mockReturnValue(mockFind)
     };
 
-    // Mock getDb to return mock database with collection
-    getDb.mockReturnValue({
-      collection: jest.fn().mockReturnValue(mockCollection)
-    });
+    // Mock getCollection to return mock collection
+    getCollection.mockReturnValue(mockCollection);
   });
 
   describe('getAllThreeDSGames', () => {
@@ -262,8 +260,8 @@ describe('Game Query Functions', () => {
       await expect(getAllThreeDSGames()).rejects.toThrow('Database connection failed');
     });
 
-    it('should throw error when getDb fails', async () => {
-      getDb.mockImplementation(() => {
+    it('should throw error when getCollection fails', async () => {
+      getCollection.mockImplementation(() => {
         throw new Error('Database not connected');
       });
 

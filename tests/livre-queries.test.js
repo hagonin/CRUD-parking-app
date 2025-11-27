@@ -5,10 +5,10 @@
 
 // Mock the connection module before requiring query functions
 jest.mock('../db/connection', () => ({
-  getDb: jest.fn()
+  getCollection: jest.fn()
 }));
 
-const { getDb } = require('../db/connection');
+const { getCollection } = require('../db/connection');
 const {
   insertMultipleLivres,
   deleteLivreByTitre,
@@ -17,7 +17,6 @@ const {
 
 describe('Livre Query Functions', () => {
   let mockCollection;
-  let mockDb;
 
   beforeEach(() => {
     jest.clearAllMocks();
@@ -32,13 +31,8 @@ describe('Livre Query Functions', () => {
       countDocuments: jest.fn()
     };
 
-    // Mock database
-    mockDb = {
-      collection: jest.fn().mockReturnValue(mockCollection)
-    };
-
-    // Mock getDb to return mock database
-    getDb.mockReturnValue(mockDb);
+    // Mock getCollection to return mock collection
+    getCollection.mockReturnValue(mockCollection);
   });
 
   describe('insertMultipleLivres', () => {
@@ -68,7 +62,7 @@ describe('Livre Query Functions', () => {
 
       const result = await insertMultipleLivres(livres);
 
-      expect(mockDb.collection).toHaveBeenCalledWith('livre');
+      expect(getCollection).toHaveBeenCalledWith('livre');
       expect(mockCollection.insertMany).toHaveBeenCalledWith(livres);
       expect(result.acknowledged).toBe(true);
       expect(result.insertedCount).toBe(2);
@@ -161,8 +155,8 @@ describe('Livre Query Functions', () => {
 
       await insertMultipleLivres(livres);
 
-      expect(mockDb.collection).toHaveBeenCalledWith('livre');
-      expect(mockDb.collection).toHaveBeenCalledTimes(1);
+      expect(getCollection).toHaveBeenCalledWith('livre');
+      expect(getCollection).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -179,7 +173,7 @@ describe('Livre Query Functions', () => {
 
       const result = await deleteLivreByTitre(titre);
 
-      expect(mockDb.collection).toHaveBeenCalledWith('livre');
+      expect(getCollection).toHaveBeenCalledWith('livre');
       expect(mockCollection.deleteOne).toHaveBeenCalledWith({ titre: "1984" });
       expect(result.acknowledged).toBe(true);
       expect(result.deletedCount).toBe(1);
@@ -281,7 +275,7 @@ describe('Livre Query Functions', () => {
 
       const result = await deleteLivresByAuteur(auteur);
 
-      expect(mockDb.collection).toHaveBeenCalledWith('livre');
+      expect(getCollection).toHaveBeenCalledWith('livre');
       expect(mockCollection.deleteMany).toHaveBeenCalledWith({ auteur: "J. K. Rowling" });
       expect(result.acknowledged).toBe(true);
       expect(result.deletedCount).toBe(2);
@@ -406,14 +400,14 @@ describe('Livre Query Functions', () => {
       await deleteLivresByAuteur("Test");
 
       // All 3 calls should request 'livre' collection
-      expect(mockDb.collection).toHaveBeenCalledWith('livre');
-      expect(mockDb.collection).toHaveBeenCalledTimes(3);
+      expect(getCollection).toHaveBeenCalledWith('livre');
+      expect(getCollection).toHaveBeenCalledTimes(3);
     });
   });
 
   describe('Error Handling', () => {
-    it('should throw error when getDb fails', async () => {
-      getDb.mockImplementation(() => {
+    it('should throw error when getCollection fails', async () => {
+      getCollection.mockImplementation(() => {
         throw new Error('Database not connected');
       });
 
