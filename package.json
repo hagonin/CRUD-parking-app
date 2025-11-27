@@ -8,7 +8,9 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "import": "node db/import-data.js",
-    "start": "node index.js"
+    "start": "node index.js",
+    "livre:setup": "node db/create-livre-collection.js",
+    "livre:test": "node db/test-livre-inserts.js"
   },
   "jest": {
     "testEnvironment": "node",
