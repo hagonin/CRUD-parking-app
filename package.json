@@ -1,37 +1,38 @@
 {
-  "name": "ex01",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage",
-    "import": "node db/import-data.js",
-    "start": "node index.js",
-    "livre:setup": "node db/create-livre-collection.js",
-    "livre:test": "node db/test-livre-inserts.js"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "coverageDirectory": "coverage",
-    "collectCoverageFrom": [
-      "queries/**/*.js",
-      "db/**/*.js",
-      "!db/import-data.js"
-    ],
-    "testMatch": [
-      "**/tests/**/*.test.js"
-    ]
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "mongodb": "^7.0.0"
-  },
-  "devDependencies": {
-    "jest": "^30.2.0"
-  }
+	"name": "ex01",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"test": "jest",
+		"test:watch": "jest --watch",
+		"test:coverage": "jest --coverage",
+		"import": "node db/import-data.js",
+		"start": "node index.js",
+		"livre:setup": "node db/create-livre-collection.js",
+		"livre:test": "node db/test-livre-inserts.js",
+		"livre:scenario": "node db/livre-scenario.js"
+	},
+	"jest": {
+		"testEnvironment": "node",
+		"coverageDirectory": "coverage",
+		"collectCoverageFrom": [
+			"queries/**/*.js",
+			"db/**/*.js",
+			"!db/import-data.js"
+		],
+		"testMatch": [
+			"**/tests/**/*.test.js"
+		]
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"type": "commonjs",
+	"dependencies": {
+		"mongodb": "^7.0.0"
+	},
+	"devDependencies": {
+		"jest": "^30.2.0"
+	}
 }
