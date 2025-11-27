@@ -19,7 +19,7 @@ async function importGames(filePath) {
   // Drop existing collection to avoid duplicates
   try {
     await collection.drop();
-    console.log('✓ Dropped existing collection');
+    console.log(' Dropped existing collection');
   } catch (error) {
     // Collection doesn't exist yet, that's fine
   }
@@ -36,7 +36,7 @@ async function importGames(filePath) {
   let errorCount = 0;
   const errors = [];
 
-  console.log('⏳ Importing games data...');
+  console.log(' Importing games data...');
 
   for await (const line of rl) {
     lineNumber++;
@@ -55,13 +55,13 @@ async function importGames(filePath) {
       if (batch.length >= BATCH_SIZE) {
         await collection.insertMany(batch);
         totalCount += batch.length;
-        process.stdout.write(`\r⏳ Imported ${totalCount} games...`);
+        process.stdout.write(`\rImported ${totalCount} games...`);
         batch = [];
       }
     } catch (error) {
       errorCount++;
       errors.push({ line: lineNumber, error: error.message });
-      console.error(`\n✗ Error parsing line ${lineNumber}:`, error.message);
+      console.error(`\n Error parsing line ${lineNumber}:`, error.message);
 
       // Fail fast if too many errors
       if (errorCount > 100) {
@@ -76,11 +76,11 @@ async function importGames(filePath) {
     totalCount += batch.length;
   }
 
-  console.log(`\n✓ Imported ${totalCount} games successfully`);
+  console.log(`\n Imported ${totalCount} games successfully`);
 
   // Report errors if any occurred
   if (errorCount > 0) {
-    console.warn(`⚠ Import completed with ${errorCount} parse errors`);
+    console.warn(` Import completed with ${errorCount} parse errors`);
   }
 
   // Create indexes for better query performance
@@ -88,9 +88,9 @@ async function importGames(filePath) {
     await collection.createIndex({ Platform: 1 });
     await collection.createIndex({ Platform: 1, Year: 1 });
     await collection.createIndex({ Global_Sales: -1 });
-    console.log('✓ Created indexes on Platform, Year, and Global_Sales');
+    console.log(' Created indexes on Platform, Year, and Global_Sales');
   } catch (error) {
-    console.error('⚠ Failed to create indexes:', error.message);
+    console.error(' Failed to create indexes:', error.message);
     // Continue - indexes are performance optimization, not critical for functionality
   }
 
@@ -109,9 +109,9 @@ async function main() {
     }
 
     const count = await importGames(filePath);
-    console.log(`\n✅ Import completed: ${count} games in database`);
+    console.log(`\nImport completed: ${count} games in database`);
   } catch (error) {
-    console.error('✗ Import failed:', error.message);
+    console.error(' Import failed:', error.message);
     process.exit(1);
   } finally {
     await disconnect();
